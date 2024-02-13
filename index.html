@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Featured Items</title>
+<style>
+  .product-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    float: left;
+  }
+
+  .product-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .product-name {
+    font-weight: bold;
+    margin-top: 5px;
+  }
+
+  .product-brand {
+    font-style: italic;
+  }
+
+  .product-price {
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Featured Items</h2>
+
+<div id="products-container"></div>
+
+<script src="data.js"></script>
+<script>
+  "use strict";
+
+  const featuredItemsContainer = document.getElementById('products-container');
+
+  const data = dataProducts;
+
+  data.forEach(product => {
+    const card = createProductCard(product);
+    featuredItemsContainer.appendChild(card);
+  });
+
+  function createProductCard(product) {
+    const card = document.createElement('div');
+    card.classList.add('product-card');
+
+    const image = document.createElement('img');
+    image.src = product.image;
+    image.alt = product.name;
+    image.classList.add('product-image');
+
+    const name = document.createElement('div');
+    name.textContent = product.name;
+    name.classList.add('product-name');
+
+    const brand = document.createElement('div');
+    brand.textContent = product.brand;
+    brand.classList.add('product-brand');
+
+    const price = document.createElement('div');
+    price.textContent = product.price + ' ' + product.currency;
+    price.classList.add('product-price');
+
+    card.appendChild(image);
+    card.appendChild(name);
+    card.appendChild(brand);
+    card.appendChild(price);
+
+    return card;
+  }
+</script>
+
+</body>
+</html>
