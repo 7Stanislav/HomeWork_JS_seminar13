@@ -31,6 +31,25 @@
   .product-price {
     margin-top: 5px;
   }
+
+  #cart-items {
+    display: none;
+    clear: both;
+  }
+
+  #cart-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .cart-item {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+  }
+
+  .cart-item .delete-button {
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -39,11 +58,18 @@
 
 <div id="products-container"></div>
 
+<div id="cart-items">
+  <h2>Cart Items</h2>
+  <ul id="cart-list"></ul>
+</div>
+
 <script src="data.js"></script>
 <script>
   "use strict";
 
   const featuredItemsContainer = document.getElementById('products-container');
+  const cartItemsContainer = document.getElementById('cart-items');
+  const cartList = document.getElementById('cart-list');
 
   const data = dataProducts;
 
@@ -73,12 +99,40 @@
     price.textContent = product.price + ' ' + product.currency;
     price.classList.add('product-price');
 
+    const addToCartButton = document.createElement('button');
+    addToCartButton.textContent = 'Add to Cart';
+    addToCartButton.addEventListener('click', () => {
+      addToCart(product);
+    });
+
     card.appendChild(image);
     card.appendChild(name);
     card.appendChild(brand);
     card.appendChild(price);
+    card.appendChild(addToCartButton);
 
     return card;
+  }
+
+  function addToCart(product) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('cart-item');
+    listItem.textContent = `${product.name} - ${product.price} ${product.currency}`;
+
+    const deleteButton = document.createElement('span');
+    deleteButton.classList.add('delete-button');
+    deleteButton.textContent = '❌';
+    deleteButton.addEventListener('click', () => {
+      listItem.remove();
+      if (cartList.children.length === 0) {
+        cartItemsContainer.style.display = 'none';
+      }
+    });
+
+    listItem.appendChild(deleteButton);
+    cartList.appendChild(listItem);
+    
+    cartItemsContainer.style.display = 'block';
   }
 </script>
 
